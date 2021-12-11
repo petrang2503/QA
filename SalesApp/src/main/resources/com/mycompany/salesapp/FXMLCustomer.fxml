@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="383.0" prefWidth="664.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.salesapp.FXMLCustomerController">
+   <children>
+      <Label layoutX="199.0" layoutY="24.0" text="CHÀO MỪNG ĐẾN VỚI TRANG QUẢN LÝ KHÁCH HÀNG" />
+      <Label layoutX="15.0" layoutY="97.0" text="Mã Khách Hàng" />
+      <Label layoutX="14.0" layoutY="136.0" text="Tên Khách Hàng" />
+      <Label layoutX="325.0" layoutY="106.0" text="Điện Thoại" />
+      <Label layoutX="325.0" layoutY="144.0" text="Địa chỉ" />
+      <TextField fx:id="txtCustomerCode" layoutX="100.0" layoutY="94.0" />
+      <TextField fx:id="txtCustomerName" layoutX="100.0" layoutY="132.0" />
+      <TextField fx:id="txtNumber" layoutX="416.0" layoutY="102.0" />
+      <TextField fx:id="txtAddress" layoutX="416.0" layoutY="140.0" />
+      <Button fx:id="btnAddCustomer" layoutX="62.0" layoutY="180.0" mnemonicParsing="false" onAction="#AddCustomer" text="Tạo Mới" />
+      <Button layoutX="180.0" layoutY="180.0" mnemonicParsing="false" onAction="#updateCustomer" text="Chỉnh sửa" />
+      <Label fx:id="lblMessage" layoutX="15.0" layoutY="49.0" />
+      <Button layoutX="283.0" layoutY="180.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="76.0" text="Xóa" />
+      <TextField fx:id="txtKeyword" layoutX="18.0" layoutY="222.0" prefHeight="25.0" prefWidth="650.0" promptText="Tìm theo khách hàng" />
+      <Button layoutX="391.0" layoutY="180.0" mnemonicParsing="false" onAction="#searchCustomerName" prefHeight="25.0" prefWidth="76.0" text="Tìm Kiếm" />
+      <TableView fx:id="tbCustomer" layoutX="14.0" layoutY="250.0" prefHeight="143.0" prefWidth="666.0" />
+   </children>
+</AnchorPane>
