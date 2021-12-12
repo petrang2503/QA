@@ -5,17 +5,10 @@
  */
 package com.mycompany.salesapp;
 
-import com.mycompany.configs.JdbcUtils;
 import com.mycompany.pojo.User;
 import com.mycompany.services.LoginService;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +52,7 @@ public class FXMLLoginController implements Initializable {
        } 
        
        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLMain.fxml"));
-       Scene scene = new Scene(fxmlLoader.load(),640, 480);
+       Scene scene = new Scene(fxmlLoader.load(), 434, 124);
        Stage stageNew = new Stage();
        stageNew.setScene(scene);
        stageNew.setTitle("Trang chủ");
@@ -72,7 +65,7 @@ public class FXMLLoginController implements Initializable {
     public  void ResgisterButton(ActionEvent Event) throws Exception
     {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLResgister.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),640, 480);
+        Scene scene = new Scene(fxmlLoader.load(), 603, 204);
         Stage stage= new Stage();
         stage.setScene(scene);
         stage.setTitle("Trang Đăng Ký");

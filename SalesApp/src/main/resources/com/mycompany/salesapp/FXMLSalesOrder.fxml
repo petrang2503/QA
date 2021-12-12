@@ -1,37 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.mycompany.salesapp.FXMLSalesOrderController">
+<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.salesapp.FXMLSalesOrderController">
    <children>
       <Label layoutX="173.0" layoutY="14.0" text="CHÀO MỪNG BẠN ĐẾN VỚI TRANG BÁN HÀNG" />
-      <Label layoutX="22.0" layoutY="57.0" text="Ngày đơn hàng" />
-      <Label layoutX="331.0" layoutY="57.0" text="Địa chỉ" />
-      <Label layoutX="22.0" layoutY="107.0" text="Khách hàng" />
-      <Label layoutX="331.0" layoutY="107.0" text="Số điện thoại" />
-      <DatePicker layoutX="106.0" layoutY="53.0" />
-      <ComboBox layoutX="106.0" layoutY="112.0" prefWidth="150.0" />
-      <TableView layoutX="1.0" layoutY="250.0" prefHeight="150.0" prefWidth="600.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-      <TextField layoutX="408.0" layoutY="53.0" />
-      <TextField layoutX="408.0" layoutY="103.0" />
-      <Button layoutX="21.0" layoutY="175.0" mnemonicParsing="false" text="Tạo Mới" />
-      <Button layoutX="104.0" layoutY="175.0" mnemonicParsing="false" text="Chỉnh sửa" />
-      <Button layoutX="192.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Xóa" />
-      <TextField layoutX="11.0" layoutY="214.0" prefHeight="25.0" prefWidth="582.0" />
-      <Button layoutX="436.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Tìm Kiếm" />
-      <Button layoutX="275.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Thêm chi tiết đơn hàng" />
+      <Label layoutX="369.0" layoutY="64.0" text="Ngày đơn hàng" />
+      <Label layoutX="21.0" layoutY="136.0" text="Địa chỉ:" />
+      <Label layoutX="22.0" layoutY="99.0" text="Khách hàng:" />
+      <Label layoutX="369.0" layoutY="98.0" text="Số điện thoại:" />
+      <DatePicker fx:id="createdDate" layoutX="465.0" layoutY="54.0" prefHeight="26.0" prefWidth="162.0" />
+      <ComboBox fx:id="cbCustomerUser" layoutX="115.0" layoutY="91.0" onAction="#changeComboboxCustomer" prefHeight="26.0" prefWidth="203.0" />
+      <TableView fx:id="tblOrderDetail" layoutX="244.0" layoutY="180.0" prefHeight="345.0" prefWidth="420.0" />
+      <Button layoutX="13.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleDeleteOrder" prefHeight="30.0" prefWidth="210.0" text="Xóa đơn hàng" />
+      <Label layoutX="22.0" layoutY="61.0" text="Mã đơn hàng:" />
+      <Button layoutX="13.0" layoutY="463.0" mnemonicParsing="false" onAction="#createOrder" prefHeight="30.0" prefWidth="210.0" text="Tạo đơn hàng" />
+      <Label layoutX="21.0" layoutY="209.0" text="Sản phẩm:" />
+      <ComboBox fx:id="cbProductName" layoutX="88.0" layoutY="205.0" onAction="#changeComboboxProduct" prefHeight="26.0" prefWidth="152.0" />
+      <Label layoutX="20.0" layoutY="291.0" text="Số lượng:" />
+      <TextField fx:id="txtQuantily" layoutX="89.0" layoutY="280.0" />
+      <Group layoutX="22.0" layoutY="316.0" />
+      <Button fx:id="btnAddRow" layoutX="121.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleAddRowBtn" text="+" />
+      <Button fx:id="btnRemoveRow" layoutX="181.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleRemoveRowBtn" text="-" />
+      <Label layoutX="15.0" layoutY="438.0" text="Tổng tiền:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTotalBill" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="75.0" layoutY="429.0" prefHeight="27.0" prefWidth="141.0" text="0" textAlignment="RIGHT">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="250.0" text="Đơn giá:" />
+      <Label fx:id="lbPrice" alignment="CENTER_RIGHT" layoutX="89.0" layoutY="251.0" prefHeight="18.0" prefWidth="122.0" textAlignment="RIGHT" />
+      <Label fx:id="lblMessage" alignment="CENTER" layoutX="26.0" layoutY="32.0" prefHeight="18.0" prefWidth="624.0" textFill="#eb0b0b" wrapText="true" />
+      <Label layoutX="219.0" layoutY="434.0" text="VNĐ" />
+      <Label layoutX="211.0" layoutY="251.0" text="VNĐ" />
+      <Label fx:id="lblCode" layoutX="114.0" layoutY="58.0" prefHeight="26.0" prefWidth="203.0" />
+      <Label fx:id="lblPhone" layoutX="465.0" layoutY="91.0" prefHeight="26.0" prefWidth="162.0" />
+      <Label fx:id="lblAddress" layoutX="82.0" layoutY="129.0" prefHeight="26.0" prefWidth="547.0" />
    </children>
 </AnchorPane>

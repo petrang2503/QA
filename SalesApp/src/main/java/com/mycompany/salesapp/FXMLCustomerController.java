@@ -42,7 +42,7 @@ public class FXMLCustomerController implements Initializable {
     @FXML private TextField txtNumber;
     @FXML private TextField txtAddress;
     @FXML private TextField txtKeyword;
-        @FXML private Label lblMessage;
+    @FXML private Label lblMessage;
     @FXML private Button btnAddCustomer;
     
     @FXML private TableView<Customer> tbCustomer;

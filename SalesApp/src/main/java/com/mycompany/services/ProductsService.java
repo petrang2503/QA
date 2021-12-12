@@ -37,11 +37,11 @@ public class ProductsService {
             return "Mã sản phẩm đã tồn tại";
         }
 
-        if(product.getPurchasePrice() == null || product.getPurchasePrice() < 0.0){
+        if(product.getPurchasePrice() == null || product.getPurchasePrice() < 0.0D){
             return "Định dạng giá nhập không hợp lệ. Vui lòng nhập Giá nhập.";
         }
 
-        if(product.getPrice() == null || product.getPrice() < 0.0){
+        if(product.getPrice() == null || product.getPrice() < 0.0D){
             return "Định dạng giá bán không hợp lệ. Vui lòng nhập Giá bán.";
         }
 

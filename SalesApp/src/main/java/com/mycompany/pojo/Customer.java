@@ -10,6 +10,8 @@ package com.mycompany.pojo;
  * @author QUOC ANH
  */
 public class Customer {
+
+    private String id;
     private String customerCode;
     private String customerName;
     private String customerAddress;
@@ -42,11 +44,6 @@ public class Customer {
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
-
-    
-
-
-
 
     public Customer(String customerCode, String customerName, String customerAddress, String customerPhone)
     {
@@ -87,4 +84,24 @@ public class Customer {
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
+    
+    /**
+     * @return the id
+     */
+    public String getId () {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId ( String id ) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString () {
+        return this.customerName;
+    }
+     
 }

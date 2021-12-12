@@ -18,8 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
-import javafx.stage.Stage;
-import javafx.collections.ObservableList;
 import java.sql.SQLException;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableColumn;

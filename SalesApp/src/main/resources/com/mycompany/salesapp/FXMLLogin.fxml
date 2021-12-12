@@ -15,7 +15,7 @@
       <Button fx:id="btnLogin" layoutX="50.0" layoutY="173.0" mnemonicParsing="false" onAction="#LoginButton" prefHeight="25.0" prefWidth="91.0" text="Login" />
       <Label layoutX="151.0" layoutY="6.0" text="Đăng Nhập" />
       <PasswordField fx:id="passwordField" layoutX="107.0" layoutY="110.0" promptText="Password" />
-      <Label fx:id="lblMessage" layoutX="22.0" layoutY="39.0" text="Label" />
+      <Label fx:id="lblMessage" layoutX="22.0" layoutY="39.0" />
       <Button layoutX="182.0" layoutY="173.0" mnemonicParsing="false" onAction="#ResgisterButton" prefHeight="25.0" prefWidth="91.0" text="Register" />
       <VBox prefHeight="200.0" prefWidth="100.0" />
    </children>

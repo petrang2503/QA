@@ -21,57 +21,53 @@ import java.util.regex.Pattern;
  *
  * @author QUOC ANH
  */
-public class CustomerService {
-      
-    public static String validationRequest(Customer customer)throws SQLException, Exception{
-    
-        if(customer.getCustomerName().isEmpty()){
+public class CustomerService{
+
+    public static String validationRequest(Customer customer) throws SQLException, Exception{
+
+        if( customer.getCustomerName().isEmpty() ){
             return "Vui lòng nhập Tên khách hàng";
         }
 
-        if(customer.getCustomerCode().isEmpty()){
+        if( customer.getCustomerCode().isEmpty() ){
             return "Vui lòng nhập Mã khách hàng";
         }
-        
-        if(isExistCustomerId(customer.getCustomerCode())){
+
+        if( isExistCustomerId(customer.getCustomerCode()) ){
             return "Mã khách hàng đã tồn tại";
         }
 
-   
-
         return "";
     }
-    
-        public static boolean isExistCustomerId(String customerCode) throws SQLException
-        {
-            Connection conn = JdbcUtils.getConn();
-            String sql = "SELECT id FROM tblcustomer WHERE customerCode='"+customerCode+"'";
-            Statement stament = conn.createStatement();
-            ResultSet rs = stament.executeQuery(sql);  
 
-            return rs.next();
-        }
-        
-        public static String validPhone(String phone) throws Exception{
-    
-        if(!phone.isEmpty()){
-           
-           Pattern pattern = Pattern.compile("[0-9]{10}");
-           Matcher matcher = pattern.matcher(phone);
-           if(!matcher.matches()){
-            return "Số điện thoại không đúng. Vui lòng nhập lại.";
-           }        
+    public static boolean isExistCustomerId(String customerCode) throws SQLException{
+        Connection conn = JdbcUtils.getConn();
+        String sql = "SELECT id FROM tblcustomer WHERE customerCode='" + customerCode + "'";
+        Statement stament = conn.createStatement();
+        ResultSet rs = stament.executeQuery(sql);
+
+        return rs.next();
+    }
+
+    public static String validPhone(String phone) throws Exception{
+
+        if( !phone.isEmpty() ){
+
+            Pattern pattern = Pattern.compile("[0-9]{10}");
+            Matcher matcher = pattern.matcher(phone);
+            if( !matcher.matches() ){
+                return "Số điện thoại không đúng. Vui lòng nhập lại.";
+            }
         }
 
         return "";
     }
 
-        
-        public static String insertCustomer(Customer customer) throws SQLException {
+    public static String insertCustomer(Customer customer) throws SQLException{
 
         Connection conn = JdbcUtils.getConn();
         String sqlAddProduct = "INSERT INTO tblcustomer(customerCode, customerName, customerAddress, customerPhone) VALUES(?,?,?,?)";
-        
+
         conn.setAutoCommit(false);
 
         PreparedStatement stm = conn.prepareStatement(sqlAddProduct);
@@ -85,8 +81,8 @@ public class CustomerService {
 
         return "Khách hàng đã thêm thành công.";
     }
-        
-        public static String deleteProduct(String customerCode) throws SQLException {
+
+    public static String deleteProduct(String customerCode) throws SQLException{
         String sqlDelete = "DELETE FROM tblcustomer WHERE customerCode = ?";
         Connection conn = JdbcUtils.getConn();
         conn.setAutoCommit(false);
@@ -97,68 +93,67 @@ public class CustomerService {
 
         conn.commit();
 
-        return "Đã xóa thành công Mã khách hàng: "+ customerCode;
+        return "Đã xóa thành công Mã khách hàng: " + customerCode;
     }
-        
-        public static String updateCustomer(Customer customer) throws SQLException 
-        {
-            String sqlDelete = "UPDATE tblcustomer SET customerName = ?, customerAddress = ?, customerPhone = ? WHERE customerCode = ?";
 
-            Connection conn = JdbcUtils.getConn();
-            conn.setAutoCommit(false);
+    public static String updateCustomer(Customer customer) throws SQLException{
+        String sqlDelete = "UPDATE tblcustomer SET customerName = ?, customerAddress = ?, customerPhone = ? WHERE customerCode = ?";
 
-            PreparedStatement stm = conn.prepareStatement(sqlDelete);
-            stm.setString(1, customer.getCustomerName());
-            stm.setString(2, customer.getCustomerAddress());
-            stm.setString(3, customer.getCustomerPhone());
-            stm.setString(4, customer.getCustomerCode());
-            stm.executeUpdate();
+        Connection conn = JdbcUtils.getConn();
+        conn.setAutoCommit(false);
 
-            conn.commit();
+        PreparedStatement stm = conn.prepareStatement(sqlDelete);
+        stm.setString(1, customer.getCustomerName());
+        stm.setString(2, customer.getCustomerAddress());
+        stm.setString(3, customer.getCustomerPhone());
+        stm.setString(4, customer.getCustomerCode());
+        stm.executeUpdate();
 
-            return "Đã cập nhật thành công Mã khách hàng: "+ customer.getCustomerCode();
+        conn.commit();
+
+        return "Đã cập nhật thành công Mã khách hàng: " + customer.getCustomerCode();
     }
-        
-         public static List<Customer> getCustomers(String keyword) throws SQLException {
+
+    public static List<Customer> getCustomers(String keyword) throws SQLException{
         String sqlGetList = "SELECT * FROM tblcustomer";
-       
-        if(!keyword.isEmpty()){
+
+        if( !keyword.isEmpty() ){
             sqlGetList += " WHERE customerName LIKE ?";
         }
 
         Connection conn = JdbcUtils.getConn();
         PreparedStatement stm = conn.prepareStatement(sqlGetList);
-        if(!keyword.isEmpty()){
+        if( !keyword.isEmpty() ){
             stm.setString(1, String.format("%%%s%%", keyword));
         }
-        
-        ResultSet rs = stm.executeQuery();
-        List<Customer> customers = new ArrayList<>();
-        while(rs.next()){
-            Customer customer = new Customer(rs.getString("customerCode"), rs.getString("customerName"),
-                                          rs.getString("customerAddress"), rs.getString("customerPhone"));
-            customers.add(customer);
+
+        List<Customer> customers;
+        try( ResultSet rs = stm.executeQuery() ){
+            customers = new ArrayList<>();
+            while(rs.next()){
+                Customer customer = new Customer(rs.getString("customerCode"), rs.getString("customerName"),
+                        rs.getString("customerAddress"), rs.getString("customerPhone"));
+                customer.setId(rs.getString("id"));
+                customers.add(customer);
+            }
         }
-        rs.close();
 
         return customers;
     }
-         
-         public Customer getCustomerCode(String customerCode) throws SQLException
-    {
-            Customer p=null;
-            String sqlgetProduct = "SELECT * FROM tblcustomer WHERE customerCode = ?";
-            Connection conn = JdbcUtils.getConn();
-            conn.setAutoCommit(false);
-             PreparedStatement stm = conn.prepareCall(sqlgetProduct);
-            stm.setString(1,customerCode); 
-            
-            ResultSet rs=stm.executeQuery();
-            while(rs.next())
-            {
-                p= new Customer(rs.getString("customerCode"),rs.getString("customerName"),rs.getString("customerAddress"),rs.getString("customerPhone") );
-                break;
-            }
+
+    public Customer getCustomerCode(String customerCode) throws SQLException{
+        Customer p = null;
+        String sqlgetProduct = "SELECT * FROM tblcustomer WHERE customerCode = ?";
+        Connection conn = JdbcUtils.getConn();
+        conn.setAutoCommit(false);
+        PreparedStatement stm = conn.prepareCall(sqlgetProduct);
+        stm.setString(1, customerCode);
+
+        ResultSet rs = stm.executeQuery();
+        while(rs.next()){
+            p = new Customer(rs.getString("customerCode"), rs.getString("customerName"), rs.getString("customerAddress"), rs.getString("customerPhone"));
+            break;
+        }
         return p;
 
     }
