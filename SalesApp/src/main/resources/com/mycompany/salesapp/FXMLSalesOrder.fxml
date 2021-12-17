@@ -12,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.salesapp.FXMLSalesOrderController">
    <children>
-      <Label layoutX="173.0" layoutY="14.0" text="CHÀO MỪNG BẠN ĐẾN VỚI TRANG BÁN HÀNG" />
+      <Label layoutX="191.0" layoutY="14.0" text="CHÀO MỪNG BẠN ĐẾN VỚI TRANG BÁN HÀNG" />
       <Label layoutX="369.0" layoutY="64.0" text="Ngày đơn hàng" />
       <Label layoutX="21.0" layoutY="136.0" text="Địa chỉ:" />
       <Label layoutX="22.0" layoutY="99.0" text="Khách hàng:" />
@@ -48,5 +48,6 @@
       <Label fx:id="lblCode" layoutX="114.0" layoutY="58.0" prefHeight="26.0" prefWidth="203.0" />
       <Label fx:id="lblPhone" layoutX="465.0" layoutY="91.0" prefHeight="26.0" prefWidth="162.0" />
       <Label fx:id="lblAddress" layoutX="82.0" layoutY="129.0" prefHeight="26.0" prefWidth="547.0" />
+      <Button layoutX="21.0" layoutY="11.0" mnemonicParsing="false" onAction="#OrderListButton" text="🏚" />
    </children>
 </AnchorPane>

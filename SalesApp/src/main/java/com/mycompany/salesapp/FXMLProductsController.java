@@ -42,8 +42,7 @@ public class FXMLProductsController implements Initializable {
 
     @FXML private TableView<Product> tbProduct;
     @FXML private Label lblMessage;
-    @FXML private Button btnAddProduct;
-
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         

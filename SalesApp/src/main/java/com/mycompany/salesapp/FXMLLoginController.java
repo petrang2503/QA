@@ -52,7 +52,7 @@ public class FXMLLoginController implements Initializable {
        } 
        
        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLMain.fxml"));
-       Scene scene = new Scene(fxmlLoader.load(), 434, 124);
+       Scene scene = new Scene(fxmlLoader.load(), 496, 155);
        Stage stageNew = new Stage();
        stageNew.setScene(scene);
        stageNew.setTitle("Trang chủ");

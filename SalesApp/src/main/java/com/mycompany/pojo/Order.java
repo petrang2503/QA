@@ -11,6 +11,20 @@ package com.mycompany.pojo;
 public class Order{
 
     /**
+     * @return the customer
+     */
+    public String getCustomer(){
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(String customer){
+        this.customer = customer;
+    }
+
+    /**
      * @return the id
      */
     public String getId(){
@@ -100,4 +114,5 @@ public class Order{
     private String createdDate;
     private Double totalAmount;
     private Long expiredDate;
+    private String customer;
 }

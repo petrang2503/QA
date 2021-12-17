@@ -18,7 +18,9 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -26,6 +28,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -231,21 +234,29 @@ public class FXMLSalesOrderController implements Initializable {
     
     public void handleDeleteOrder(ActionEvent Event) throws Exception{
         String code = lblCode.getText();
-        
+
         String idOrder = SalesOrderService.isExistOrderAndAllow(code);
-        if(!idOrder.isEmpty()){
-            
-            if(idOrder.equals("NotAllow")){
-                this.lblMessage.setText("Vượt quá 30 phút để xóa đơn hàng");
-                return;
-            }
-            
-            SalesOrderService.deleteOldOrder(idOrder);
-        } else {
-             this.lblMessage.setText("Không tìm thấy đơn hàng của bạn");
-             return;
+        if( idOrder.isEmpty() ){
+            this.lblMessage.setText("Không tìm thấy đơn hàng của bạn");
+            return;
         }
-        
+
+        if( idOrder.equals("NotAllow") ){
+            this.lblMessage.setText("Vượt quá 30 phút để xóa đơn hàng");
+            return;
+        }
+
+        SalesOrderService.deleteOldOrder(idOrder);
+
         this.lblMessage.setText("Đơn hàng đã được xóa thành công");
+    }
+    
+    public void OrderListButton(ActionEvent event) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLOrderList.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 768, 541);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Quản lý đơn hàng");
+        stage.show();
     }
 }

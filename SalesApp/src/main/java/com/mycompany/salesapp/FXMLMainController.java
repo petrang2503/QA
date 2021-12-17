@@ -52,13 +52,13 @@ public class FXMLMainController implements Initializable{
 //            stage.close();   
 
     }
-
-    public void SalesOrderButton(ActionEvent event) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLSalesOrder.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 674, 541);
+    
+    public void OrderListButton(ActionEvent event) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLOrderList.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 768, 541);
         Stage stage = new Stage();
         stage.setScene(scene);
-        stage.setTitle("Trang bán hàng");
+        stage.setTitle("Quản lý đơn hàng");
         stage.show();
     }
 }

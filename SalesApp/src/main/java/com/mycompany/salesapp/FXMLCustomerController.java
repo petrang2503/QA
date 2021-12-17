@@ -5,9 +5,7 @@
  */
 package com.mycompany.salesapp;
 
-
 import com.mycompany.pojo.Customer;
-
 
 import com.mycompany.services.CustomerService;
 
@@ -31,47 +29,54 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author QUOC ANH
  */
-public class FXMLCustomerController implements Initializable {
+public class FXMLCustomerController implements Initializable{
 
     /**
      * Initializes the controller class.
      */
-    
-      @FXML private TextField txtCustomerCode;
-    @FXML private TextField txtCustomerName;
-    @FXML private TextField txtNumber;
-    @FXML private TextField txtAddress;
-    @FXML private TextField txtKeyword;
-    @FXML private Label lblMessage;
-    @FXML private Button btnAddCustomer;
-    
-    @FXML private TableView<Customer> tbCustomer;
+    @FXML
+    private TextField txtCustomerCode;
+    @FXML
+    private TextField txtCustomerName;
+    @FXML
+    private TextField txtNumber;
+    @FXML
+    private TextField txtAddress;
+    @FXML
+    private TextField txtKeyword;
+    @FXML
+    private Label lblMessage;
+    @FXML
+    private Button btnAddCustomer;
+
+    @FXML
+    private TableView<Customer> tbCustomer;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb){
         try{
             //Load Products
             this.loadCustomer();
-        } catch(SQLException ex){
+        }catch(SQLException ex){
             System.err.println(ex.getMessage());
         }
 
         //select row on Table View
-        this.tbCustomer.setRowFactory(et -> {
+        this.tbCustomer.setRowFactory(et->{
             TableRow row = new TableRow();
-            row.setOnMouseClicked(r -> {
+            row.setOnMouseClicked(r->{
                 Customer customer = this.tbCustomer.getSelectionModel().getSelectedItem();
                 this.txtCustomerCode.setText(customer.getCustomerCode());
                 this.txtCustomerName.setText(customer.getCustomerName());
                 this.txtNumber.setText(customer.getCustomerPhone());
                 this.txtAddress.setText(customer.getCustomerAddress());
             });
-           return row;
+            return row;
         });
-    }    
-    
-     public void AddCustomer(ActionEvent Event) throws Exception
-    {
-       
+    }
+
+    public void AddCustomer(ActionEvent Event) throws Exception{
+
         Customer customer = new Customer();
         customer.setCustomerCode(this.txtCustomerCode.getText());
         customer.setCustomerName(this.txtCustomerName.getText());
@@ -79,14 +84,13 @@ public class FXMLCustomerController implements Initializable {
         customer.setCustomerAddress(this.txtAddress.getText());
 
         String result = CustomerService.validationRequest(customer);
-        if(!result.isEmpty())
-         {
+        if( !result.isEmpty() ){
             lblMessage.setText(result);
             return;
         }
-        
+
         result = CustomerService.validPhone(customer.getCustomerPhone());
-        if(!result.isEmpty()){
+        if( !result.isEmpty() ){
             lblMessage.setText(result);
             return;
         }
@@ -97,61 +101,56 @@ public class FXMLCustomerController implements Initializable {
 
         lblMessage.setText(result);
     }
-     
-      public void searchCustomerName(ActionEvent Event) throws Exception
-    {
+
+    public void searchCustomerName(ActionEvent Event) throws Exception{
         this.tbCustomer.getItems().clear();
         this.tbCustomer.setItems(FXCollections.observableArrayList(CustomerService.getCustomers(this.txtKeyword.getText())));
     }
-    
-      public void deleteProduct(ActionEvent Event) throws Exception
-    {
-        
+
+    public void deleteProduct(ActionEvent Event) throws Exception{
+
         Customer customer = new Customer();
         customer.setCustomerCode(this.txtCustomerCode.getText());
-        
+
         boolean isExist = CustomerService.isExistCustomerId(customer.getCustomerCode());
-        if(!isExist){
+        if( !isExist ){
             lblMessage.setText("Mã khách hàng không tồn tại.");
-            return ;
+            return;
         }
-        
 
         String result = CustomerService.deleteProduct(customer.getCustomerCode());
-        
+
         this.tbCustomer.getItems().clear();
         this.tbCustomer.setItems(FXCollections.observableArrayList(CustomerService.getCustomers("")));
         lblMessage.setText(result);
     }
-    public void updateCustomer(ActionEvent Event) throws Exception
-    {
-        
+
+    public void updateCustomer(ActionEvent Event) throws Exception{
+
         Customer customer = new Customer();
         customer.setCustomerCode(this.txtCustomerCode.getText());
         customer.setCustomerName(this.txtCustomerName.getText());
         customer.setCustomerPhone(this.txtNumber.getText());
         customer.setCustomerAddress(this.txtAddress.getText());
-        
+
         boolean isExist = CustomerService.isExistCustomerId(customer.getCustomerCode());
-        if(!isExist){
+        if( !isExist ){
             lblMessage.setText("Mã khách hàng không tồn tại.");
-            return ;
+            return;
         }
-        
-         String checkresult = CustomerService.validPhone(customer.getCustomerPhone());
-        if(!checkresult.isEmpty()){
+
+        String checkresult = CustomerService.validPhone(customer.getCustomerPhone());
+        if( !checkresult.isEmpty() ){
             lblMessage.setText(checkresult);
             return;
         }
-        
-        
 
         String result = CustomerService.updateCustomer(customer);
         this.tbCustomer.setItems(FXCollections.observableArrayList(CustomerService.getCustomers("")));
         lblMessage.setText(result);
     }
-    
-    private void loadCustomer()throws SQLException{
+
+    private void loadCustomer() throws SQLException{
         TableColumn customerCode = new TableColumn("Mã khách hàng");
         customerCode.setCellValueFactory(new PropertyValueFactory("customerCode"));
         customerCode.setPrefWidth(100);

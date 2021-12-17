@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.salesapp.FXMLOrderDetailController">
+   <children>
+      <Label layoutX="303.0" layoutY="20.0" text="CHI TIẾT ĐƠN HÀNG">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <TableView fx:id="tblOrderDetail" layoutX="13.0" layoutY="109.0" prefHeight="343.0" prefWidth="739.0" />
+      <Group layoutX="22.0" layoutY="316.0" />
+      <Label fx:id="lbPrice" alignment="CENTER_RIGHT" layoutX="89.0" layoutY="251.0" prefHeight="18.0" prefWidth="122.0" textAlignment="RIGHT" />
+      <Label layoutX="383.0" layoutY="469.0" prefHeight="30.0" prefWidth="112.0" text="Tổng tiền:">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAmountTotal" alignment="CENTER_RIGHT" layoutX="488.0" layoutY="469.0" prefHeight="30.0" prefWidth="185.0">
+         <font>
+            <Font name="System Italic" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="696.0" layoutY="469.0" prefHeight="30.0" prefWidth="44.0" text="VNĐ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblId" alignment="CENTER" layoutX="290.0" layoutY="50.0" prefHeight="37.0" prefWidth="212.0" />
+   </children>
+</AnchorPane>
