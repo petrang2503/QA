@@ -27,8 +27,8 @@
       <ComboBox fx:id="cbCustomerUser" layoutX="397.0" layoutY="152.0" prefHeight="25.0" prefWidth="185.0" />
       <Label layoutX="32.0" layoutY="156.0" text="Mã đơn hàng:" />
       <TextField fx:id="txtOrderCode" layoutX="115.0" layoutY="152.0" prefHeight="25.0" prefWidth="168.0" />
-      <Button layoutX="622.0" layoutY="104.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Tìm kiếm" />
-      <Button layoutX="622.0" layoutY="152.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Nhập lại" />
+      <Button layoutX="622.0" layoutY="104.0" mnemonicParsing="false" onAction="#SearchHandleBtn" prefHeight="25.0" prefWidth="101.0" text="Tìm kiếm" />
+      <Button layoutX="622.0" layoutY="152.0" mnemonicParsing="false" onAction="#ResetSearchBtn" prefHeight="25.0" prefWidth="101.0" text="Nhập lại" />
       <Button layoutX="648.0" layoutY="227.0" mnemonicParsing="false" onAction="#deleteOrder" prefHeight="30.0" prefWidth="109.0" text="Xóa đơn hàng" />
       <Button layoutX="647.0" layoutY="274.0" mnemonicParsing="false" onAction="#viewDetail" prefHeight="30.0" prefWidth="109.0" text="Xem chi tiết" />
       <Label fx:id="lblMessage" alignment="CENTER" layoutX="79.0" layoutY="47.0" prefHeight="26.0" prefWidth="636.0" textFill="#f20303">

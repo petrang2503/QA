@@ -6,11 +6,14 @@ package com.mycompany.salesapp;
 
 import com.mycompany.pojo.Order;
 import com.mycompany.pojo.OrderDetails;
+import com.mycompany.pojo.SearchBean;
 import com.mycompany.services.OrderListService;
 import com.mycompany.services.SalesOrderService;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -148,5 +151,45 @@ public class FXMLOrderListController implements Initializable{
         stage.setScene(scene);
         stage.setTitle("Trang bán hàng");
         stage.show();
+    }
+    
+    public void SearchHandleBtn(ActionEvent event)throws Exception{
+        LocalDate fromDate = this.dbFromDate.getValue();
+        LocalDate toDate   = this.dbToDate.getValue();
+        String orderCode = this.txtOrderCode.getText();
+        String customer = this.cbCustomerUser.getValue();
+        
+        SearchBean searchBean = new SearchBean();
+        if(fromDate != null){
+            String fromDateS = fromDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            searchBean.setFromDate(fromDateS);
+        }
+        
+        if(toDate != null){
+            String toDateS = toDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            searchBean.setToDate(toDateS);
+        }
+        
+        if(orderCode != null && !orderCode.isEmpty()){
+            searchBean.setOrderCode(orderCode);
+        }
+        
+        if(customer != null && !customer.isEmpty()){
+            String customerId = customer.split(",")[0];
+            searchBean.setCustomerId(customerId);
+        }
+        
+        this.tblOrderList.getItems().clear();
+        this.tblOrderList.setItems(FXCollections.observableArrayList(OrderListService.getOrders(searchBean)));
+    }
+    
+    public void ResetSearchBtn(ActionEvent event)throws Exception{
+        this.txtOrderCode.setText(null);
+        this.cbCustomerUser.setValue(null);
+        this.dbFromDate.setValue(null);
+        this.dbToDate.setValue(null);
+        
+         this.tblOrderList.getItems().clear();
+        this.tblOrderList.setItems(FXCollections.observableArrayList(OrderListService.getOrders(null)));
     }
 }

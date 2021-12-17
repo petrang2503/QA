@@ -136,6 +136,8 @@ public class FXMLSalesOrderController implements Initializable {
         } else {
             this.lblMessage.setText("Tạo đơn hàng thành công cho khách hàng "+cbCustomerUser.getValue());
         }   
+        
+        goBackOrderList();
     }
     
     private void loadTable(){
@@ -252,6 +254,16 @@ public class FXMLSalesOrderController implements Initializable {
     }
     
     public void OrderListButton(ActionEvent event) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLOrderList.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 768, 541);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Quản lý đơn hàng");
+        stage.show();
+    }
+    
+    
+    public void goBackOrderList() throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLOrderList.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 768, 541);
         Stage stage = new Stage();

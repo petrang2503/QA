@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +22,51 @@ import java.util.List;
  */
 public class OrderListService{
 
+    public static void deleteOldOrder(String id) throws SQLException{
+        try( Connection conn = JdbcUtils.getConn() ){
+            String sqlDelete = "DELETE FROM tblorderDetails WHERE orderId = ?";
+            conn.setAutoCommit(false);
+
+            PreparedStatement stm = conn.prepareStatement(sqlDelete);
+            stm.setString(1, id);
+            stm.executeUpdate();
+
+            conn.commit();
+
+            //-----
+            sqlDelete = "DELETE FROM tblorder WHERE id = ?";
+            conn.setAutoCommit(false);
+
+            stm = conn.prepareStatement(sqlDelete);
+            stm.setString(1, id);
+            stm.executeUpdate();
+
+            conn.commit();
+        }
+    }
+    
     public static String deleteOrder(String id) throws SQLException{
         
-        String sqlDelete = "DELETE FROM tblorder WHERE id = ?";
-        Connection conn = JdbcUtils.getConn();
-        conn.setAutoCommit(false);
+        try( Connection conn = JdbcUtils.getConn() ){
+            String sqlDelete = "DELETE FROM tblorderDetails WHERE orderId = ?";
+            conn.setAutoCommit(false);
 
-        PreparedStatement stm = conn.prepareStatement(sqlDelete);
-        stm.setString(1, id);
-        stm.executeUpdate();
+            PreparedStatement stm = conn.prepareStatement(sqlDelete);
+            stm.setString(1, id);
+            stm.executeUpdate();
 
-        conn.commit();
-        conn.close();
+            conn.commit();
+
+            //-----
+            sqlDelete = "DELETE FROM tblorder WHERE id = ?";
+            conn.setAutoCommit(false);
+
+            stm = conn.prepareStatement(sqlDelete);
+            stm.setString(1, id);
+            stm.executeUpdate();
+
+            conn.commit();
+        }
         
         return "Đã xóa thành công Đơn hàng - ID: "+ id;
     }
@@ -69,21 +101,21 @@ public class OrderListService{
         StringBuilder sql = new StringBuilder();
 
         if(searchBean != null){
-            if( !searchBean.getCustomerId().isEmpty() ){
+            if( searchBean.getCustomerId() != null ){
                 sql.append("customerId = ?");
             }
 
-            if( !searchBean.getFromDate().isEmpty() ){
+            if( searchBean.getFromDate() != null ){
                 addAndQuery(sql);
                 sql.append("createdDate >= ?");
             }
 
-            if( !searchBean.getToDate().isEmpty() ){
+            if( searchBean.getToDate() != null ){
                 addAndQuery(sql);
                 sql.append("createdDate <= ?");
             }
 
-            if( !searchBean.getOrderCode().isEmpty() ){
+            if( searchBean.getOrderCode() != null ){
                 addAndQuery(sql);
                 sql.append("orderCode LIKE ?");
             }
@@ -97,22 +129,22 @@ public class OrderListService{
         int column = 0;
         PreparedStatement stm = conn.prepareStatement(sqlGetList);
         if( searchBean != null ){
-            if( !searchBean.getCustomerId().isEmpty() ){
+            if( searchBean.getCustomerId() != null ){
                 column++;
                 stm.setString(column, searchBean.getCustomerId());
             }
 
-            if( !searchBean.getFromDate().isEmpty() ){
+            if( searchBean.getFromDate() != null ){
                 column++;
                 stm.setString(column, searchBean.getFromDate());
             }
 
-            if( !searchBean.getToDate().isEmpty() ){
+            if( searchBean.getToDate() != null ){
                 column++;
                 stm.setString(column, searchBean.getToDate());
             }
 
-            if( !searchBean.getOrderCode().isEmpty() ){
+            if( searchBean.getOrderCode() != null ){
                 column++;
                 stm.setString(column, String.format("%%%s%%", searchBean.getOrderCode()));
             }

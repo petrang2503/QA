@@ -20,9 +20,8 @@
       <DatePicker fx:id="createdDate" layoutX="465.0" layoutY="54.0" prefHeight="26.0" prefWidth="162.0" />
       <ComboBox fx:id="cbCustomerUser" layoutX="115.0" layoutY="91.0" onAction="#changeComboboxCustomer" prefHeight="26.0" prefWidth="203.0" />
       <TableView fx:id="tblOrderDetail" layoutX="244.0" layoutY="180.0" prefHeight="345.0" prefWidth="420.0" />
-      <Button layoutX="13.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleDeleteOrder" prefHeight="30.0" prefWidth="210.0" text="Xóa đơn hàng" />
       <Label layoutX="22.0" layoutY="61.0" text="Mã đơn hàng:" />
-      <Button layoutX="13.0" layoutY="463.0" mnemonicParsing="false" onAction="#createOrder" prefHeight="30.0" prefWidth="210.0" text="Tạo đơn hàng" />
+      <Button layoutX="16.0" layoutY="474.0" mnemonicParsing="false" onAction="#createOrder" prefHeight="52.0" prefWidth="218.0" text="Tạo đơn hàng" />
       <Label layoutX="21.0" layoutY="209.0" text="Sản phẩm:" />
       <ComboBox fx:id="cbProductName" layoutX="88.0" layoutY="205.0" onAction="#changeComboboxProduct" prefHeight="26.0" prefWidth="152.0" />
       <Label layoutX="20.0" layoutY="291.0" text="Số lượng:" />
