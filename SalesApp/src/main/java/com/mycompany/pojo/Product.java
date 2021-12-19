@@ -15,6 +15,7 @@ public class Product {
     private String productCode;
     private String productName;
     private Double purchasePrice;
+    private Integer numberToRecieve;
     private Double price;
 
     public Product(){}
@@ -75,6 +76,21 @@ public class Product {
         this.price = price;
     }
 
+    /**
+     * @return the numberToRecieve
+     */
+    public Integer getNumberToRecieve(){
+        return numberToRecieve;
+    }
+
+    /**
+     * @param numberToRecieve the numberToRecieve to set
+     */
+    public void setNumberToRecieve(Integer numberToRecieve){
+        this.numberToRecieve = numberToRecieve;
+    }
+
+    
     public Product(String productCode, String productName, Double purchasePrice, Double price)
     {
         this.productCode = productCode;

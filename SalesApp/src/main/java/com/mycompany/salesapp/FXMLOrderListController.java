@@ -5,7 +5,6 @@
 package com.mycompany.salesapp;
 
 import com.mycompany.pojo.Order;
-import com.mycompany.pojo.OrderDetails;
 import com.mycompany.pojo.SearchBean;
 import com.mycompany.services.OrderListService;
 import com.mycompany.services.SalesOrderService;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

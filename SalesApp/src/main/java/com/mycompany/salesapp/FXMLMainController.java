@@ -61,4 +61,13 @@ public class FXMLMainController implements Initializable{
         stage.setTitle("Quản lý đơn hàng");
         stage.show();
     }
+    
+    public void RecieveButton(ActionEvent event) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLRecieveProducts.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 717, 430);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Nhập hàng");
+        stage.show();
+    }
 }

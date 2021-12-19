@@ -98,14 +98,7 @@ public class FXMLSalesOrderController implements Initializable {
     public void createOrder(ActionEvent Event) throws Exception{
         
         String code = lblCode.getText();
-        
-        String idOrder = SalesOrderService.isExistOrderAndAllow(code);
-        if(!idOrder.isEmpty()){
-            
-           this.lblMessage.setText("Đơn hàng của khách đã được khởi tạo.");
-           return;
-        }
-        
+                
         Order order = new Order();
         order.setOrderCode(code);
         
@@ -119,23 +112,14 @@ public class FXMLSalesOrderController implements Initializable {
         Long currently = System.currentTimeMillis();
         order.setExpiredDate(currently + 1800000);
         
-        String id = SalesOrderService.CreateOrder(order);
-        
-        double totalBill = 0.0d;
         //Details
         List<OrderDetails> details = tblOrderDetail.getItems();
-        for(OrderDetails detail : details){
-      
-            totalBill += SalesOrderService.InsertOrderDetail(detail, id);
-        } 
+        String error = SalesOrderService.CreateOrder(order, details);
         
-        SalesOrderService.UpdateTotalBill(totalBill, id);
-        
-        if(!idOrder.isEmpty()){
-            this.lblMessage.setText("Cập nhật đơn hàng thành công cho khách hàng "+cbCustomerUser.getValue());
-        } else {
-            this.lblMessage.setText("Tạo đơn hàng thành công cho khách hàng "+cbCustomerUser.getValue());
-        }   
+        if(!error.isEmpty()){
+            lblMessage.setText(error);
+            return;
+        }
         
         goBackOrderList();
     }
@@ -185,15 +169,7 @@ public class FXMLSalesOrderController implements Initializable {
             lblMessage.setText("Vui lòng kiểm tra thông tin nhập chi tiết đơn hàng.");
             return;
         }
-        
-        String checkInventory = SalesOrderService.CheckInventory(productId, Integer.valueOf(quantily), "xuatkho");
-        if(!checkInventory.isEmpty()){
-            lblMessage.setText(checkInventory);
-            return;
-        }
-        
-        lblMessage.setText("");
-                
+                        
         OrderDetails detail = new OrderDetails();
         detail.setProductId(productId);
         detail.setProductName(productName);
@@ -228,31 +204,10 @@ public class FXMLSalesOrderController implements Initializable {
             currentlyTotal = toltalBillBefore - Double.valueOf(detail.getAmountTotal().replaceAll(",", ""));
         }
        
-        SalesOrderService.CheckInventory(detail.getProductId(), Integer.valueOf(detail.getQuantily()), "nhaplai");
-                
         this.lbTotalBill.setText(formatPrice.format(currentlyTotal));     
         tblOrderDetail.getItems().removeAll(detail);
     }
-    
-    public void handleDeleteOrder(ActionEvent Event) throws Exception{
-        String code = lblCode.getText();
-
-        String idOrder = SalesOrderService.isExistOrderAndAllow(code);
-        if( idOrder.isEmpty() ){
-            this.lblMessage.setText("Không tìm thấy đơn hàng của bạn");
-            return;
-        }
-
-        if( idOrder.equals("NotAllow") ){
-            this.lblMessage.setText("Vượt quá 30 phút để xóa đơn hàng");
-            return;
-        }
-
-        SalesOrderService.deleteOldOrder(idOrder);
-
-        this.lblMessage.setText("Đơn hàng đã được xóa thành công");
-    }
-    
+        
     public void OrderListButton(ActionEvent event) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("FXMLOrderList.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 768, 541);

@@ -21,51 +21,53 @@ import java.util.List;
  * @author Quoc Anh
  */
 public class OrderListService{
-
-    public static void deleteOldOrder(String id) throws SQLException{
-        try( Connection conn = JdbcUtils.getConn() ){
-            String sqlDelete = "DELETE FROM tblorderDetails WHERE orderId = ?";
-            conn.setAutoCommit(false);
-
-            PreparedStatement stm = conn.prepareStatement(sqlDelete);
-            stm.setString(1, id);
-            stm.executeUpdate();
-
-            conn.commit();
-
-            //-----
-            sqlDelete = "DELETE FROM tblorder WHERE id = ?";
-            conn.setAutoCommit(false);
-
-            stm = conn.prepareStatement(sqlDelete);
-            stm.setString(1, id);
-            stm.executeUpdate();
-
-            conn.commit();
-        }
-    }
     
     public static String deleteOrder(String id) throws SQLException{
+        Connection conn = null;
         
-        try( Connection conn = JdbcUtils.getConn() ){
-            String sqlDelete = "DELETE FROM tblorderDetails WHERE orderId = ?";
+        try{
+            conn = JdbcUtils.getConn();
             conn.setAutoCommit(false);
-
-            PreparedStatement stm = conn.prepareStatement(sqlDelete);
+            
+            String sql = "SELECT productId, quantily FROM tblorderDetails WHERE orderId = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1, id);
+            
+            try (ResultSet rs = stm.executeQuery()) {
+                while(rs.next()){
+                    String productId = rs.getString("productId");
+                    Integer quantily = rs.getInt("quantily");
+                    String checkInventory = SalesOrderService.CheckInventory(productId, quantily, "nhaplai", conn);
+                    if( !checkInventory.isEmpty() ){
+                        conn.rollback();
+                        conn.setAutoCommit(true);
+                        return checkInventory;
+                    }   
+                }
+            }
+                    
+            sql = "DELETE FROM tblorderDetails WHERE orderId = ?";
+            stm = conn.prepareStatement(sql);
             stm.setString(1, id);
             stm.executeUpdate();
-
-            conn.commit();
 
             //-----
-            sqlDelete = "DELETE FROM tblorder WHERE id = ?";
-            conn.setAutoCommit(false);
-
-            stm = conn.prepareStatement(sqlDelete);
+            sql = "DELETE FROM tblorder WHERE id = ?";
+            stm = conn.prepareStatement(sql);
             stm.setString(1, id);
             stm.executeUpdate();
 
             conn.commit();
+            conn.setAutoCommit(true);
+        }catch(SQLException e){
+
+            System.out.println("Data ban đầu.");
+            if( conn != null ){
+                conn.rollback();
+            }
+        }finally {
+            if(conn != null)
+               conn.close();
         }
         
         return "Đã xóa thành công Đơn hàng - ID: "+ id;
