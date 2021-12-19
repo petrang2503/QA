@@ -70,7 +70,7 @@ public class ToRecieverService {
         stm.executeUpdate();
                 
        String error = updateQuantilyProduct(conn, productId, "insert");
-        if(!error.isEmpty()){
+        if(!error.isBlank()){
             conn.rollback();
             conn.setAutoCommit(true);
             return error;

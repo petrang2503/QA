@@ -122,7 +122,8 @@ public class FXMLToRecieveController implements Initializable{
         
         lblMessage.setText("");
         String productId = cbStr.split(",")[0];
-        ToRecieverService.insertRecieveProduct(productId, Long.valueOf(numberOfRecieve));
+        String result = ToRecieverService.insertRecieveProduct(productId, Long.valueOf(numberOfRecieve));
+        lblMessage.setText(result);
         
         //Load
         this.tbProduct.getItems().clear();
