@@ -124,10 +124,9 @@ public class SalesOrderService{
             for(OrderDetails detail : details){
                 String productId = detail.getProductId();
                 Integer quantily = Integer.valueOf(detail.getQuantily());
-
+                
                 String checkInventory = SalesOrderService.CheckInventory(productId, quantily, "xuatkho", conn);
                 if( !checkInventory.isEmpty() ){
-                    System.out.println(checkInventory);
                     conn.rollback();
                     conn.setAutoCommit(true);
                     return checkInventory;
@@ -148,14 +147,14 @@ public class SalesOrderService{
                 totalBill += total;
 
                 //insert xuatkho
-                sql = "INSERT INTO tbltorecieve(productId, numberOfRecieve, createdDate, orderId) VALUES(?,?,?,?)";
+                String sqlXuat = "INSERT INTO tbltorecieve(productId, numberOfRecieve, createdDate, orderId) VALUES(?,?,?,?)";
 
-                stm = conn.prepareStatement(sql);
+                stm = conn.prepareStatement(sqlXuat);
                 stm.setString(1, productId);
-                stm.setDouble(2, quantily*(-1));
+                stm.setLong(2, quantily);
                 stm.setString(3, order.getCreatedDate());
                 stm.setString(4, idValue);
-
+                System.out.println("den day");
                 stm.executeUpdate();
             }
 
@@ -170,12 +169,12 @@ public class SalesOrderService{
             conn.setAutoCommit(true);
         }catch(SQLException e){
 
-            System.out.println("Data ban đầu.");
+            System.out.println("Data ban đầu." +e);
             if( conn != null ){
                 conn.rollback();
             }
         }finally {
-            if( conn != null ) {
+            if( conn != null ){
                 conn.close();
             }
         }
@@ -184,36 +183,36 @@ public class SalesOrderService{
     }
 
     public static String CheckInventory(String productId, int quantily, String action, Connection conn) throws SQLException{
-        String sql = "SELECT productName, numberOfWarehouses, quantityRemaining FROM tblproduct WHERE id = ?";
+        String sql = "SELECT productName, numberOfWarehouses FROM tblproduct WHERE id = ?";
 
         PreparedStatement stm = conn.prepareStatement(sql);
         stm.setString(1, productId);
 
         String productName = "";
-        int quantityRemaining = 0;
+        long quantityRemaining = 0;
         try(  ResultSet rs = stm.executeQuery() ){
             if( rs.next() ){
-                quantityRemaining = rs.getInt("quantityRemaining");
+                quantityRemaining = rs.getLong("numberOfWarehouses");
                 productName = rs.getString("productName");
             }
         }
 
-        int remaining = 0;
+        int remaining = (int) quantityRemaining;
         if( action.equals("xuatkho") ){
-            if( quantily > quantityRemaining ){
+            if( quantily > remaining ){
 
                 return "Sản phẩm " + productName + " đã vượt quá số lượng tồn trong kho. Tồn kho hiện tại: " + quantityRemaining;
             }
 
-            remaining = quantityRemaining - quantily;
+            remaining = remaining - quantily;
         } else if( action.equals("nhaplai") ){
-            remaining = quantityRemaining + quantily;
+            remaining = remaining + quantily;
         }
 
-        sql = "UPDATE tblproduct SET quantityRemaining = ? WHERE id = ?";
+        sql = "UPDATE tblproduct SET numberOfWarehouses = ? WHERE id = ?";
 
         stm = conn.prepareStatement(sql);
-        stm.setInt(1, remaining);
+        stm.setLong(1, (long)remaining);
         stm.setString(2, productId);
         stm.executeUpdate();
 
