@@ -96,7 +96,7 @@ public class ToRecieverService {
     }
 
     public static List<ToRecieveBean> getProducts(String productId) throws SQLException {
-        String sqlGetList = "SELECT * FROM tbltorecieve WHERE productId = ?";
+        String sqlGetList = "SELECT * FROM tbltorecieve WHERE productId = ? AND productName is not null";
        
         Connection conn = JdbcUtils.getConn();
         PreparedStatement stm = conn.prepareStatement(sqlGetList);

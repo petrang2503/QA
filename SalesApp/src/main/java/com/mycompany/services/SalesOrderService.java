@@ -151,7 +151,7 @@ public class SalesOrderService{
 
                 stm = conn.prepareStatement(sqlXuat);
                 stm.setString(1, productId);
-                stm.setLong(2, quantily);
+                stm.setLong(2, quantily * (-1));
                 stm.setString(3, order.getCreatedDate());
                 stm.setString(4, idValue);
                 System.out.println("den day");
